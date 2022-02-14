@@ -19,35 +19,48 @@ function totalFeild(amount,textBoxValue){
     boxText.innerText = totalAmount;
  
 }
+
+function getCurrentBalance(){
+    const balanceBox = document.getElementById('total-balance');
+    const currentBalance = parseFloat(balanceBox.innerText);
+    return currentBalance;
+}
+
+//update balance
+function updateBalane(amount, isAdd){
+    const balanceBox = document.getElementById('total-balance');
+    const currentBalanceValue = getCurrentBalance();
+    if(isAdd == true){
+        balanceBox.innerText = currentBalanceValue + amount;
+    }
+    else{
+        balanceBox.innerText = currentBalanceValue - amount;
+    }
+  
+}
 // deposit area js start here
 
 document.getElementById('deposit-button').addEventListener('click', function(){
 
     const depositInputText = getInputValue('deposit-input');
-
-    // total balance box
-    const balanceBox = document.getElementById('total-balance');
-    // total deposite
+    if(depositInputText > 0){
+        // total deposite
     totalFeild(depositInputText,'deposit-box')
     // total balance 
-    const totalBalance = parseFloat(balanceBox.innerText) + depositInputText;
-    balanceBox.innerText = totalBalance;
-
+    updateBalane(depositInputText, true);
+    }
 });
 
 document.getElementById('withdraw-button').addEventListener('click', function(){
     //withdraw input text
     const withdrawInputText = getInputValue('withdraw-input');
-
-    // balance box text 
-    const balanceBox = document.getElementById('total-balance');
-    // total withdraw 
+    const currentbalance = getCurrentBalance();
+   if(withdrawInputText > 0 && withdrawInputText < currentbalance){
+        // total withdraw 
     totalFeild(withdrawInputText, 'withdraw-text');
 
-    // due total balance 
-    const totalDueBalance =parseFloat(balanceBox.innerText) -  withdrawInputText;
-
-    balanceBox.innerText = totalDueBalance;
+    updateBalane(withdrawInputText, false);
+   }
 
 })
 
